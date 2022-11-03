@@ -20,10 +20,6 @@ BANNER = r"""
 DELTA_SPEED = 1
 DELTA_LOOT = 0.01
 
-# Global status variables.
-speed = 0  # packets/second
-loot = 0   # probability e [0, 1]
-
 def main(iface, pcap, icap):
 
 	print(f":: Loading reader for packets from {pcap}...")
@@ -47,22 +43,27 @@ def main(iface, pcap, icap):
 	stdscr.keypad(True)
 	stdscr.clear()
 
+	speed = 0  # packets/second e [0, inf)
+	loot = 0   # probability e [0, 1]
+
 	for i,line in enumerate(BANNER.split("\n")):
 		stdscr.addstr(i, 1, line)
 
-	stdscr.addstr(i+1, 1, f" Current settings:               ")
-	stdscr.addstr(i+2, 1, f" rate = {speed} packets/second   ")
-	stdscr.addstr(i+3, 1, f" P(loot) = {loot:.2f}            ")
-	stdscr.addstr(i+4, 1, f"                                 ")
-	stdscr.addstr(i+5, 1, f" q   Quit the program.           ")
-	stdscr.addstr(i+6, 1, f"     Increase replay speed. ")
-	stdscr.addstr(i+7, 1, f"     Decrease replay speed.      ")
-	stdscr.addstr(i+8, 1, f"     Increase loot probability.  ")
-	stdscr.addstr(i+9, 1, f"     Decrease loot probability.  ")
-	stdscr.addch(i+6, 2, curses.ACS_UARROW, curses.A_ALTCHARSET)
-	stdscr.addch(i+7, 2, curses.ACS_DARROW, curses.A_ALTCHARSET)
-	stdscr.addch(i+8, 2, curses.ACS_RARROW, curses.A_ALTCHARSET)
-	stdscr.addch(i+9, 2, curses.ACS_LARROW, curses.A_ALTCHARSET)
+	stati = i
+
+	stdscr.addstr(stati+1, 1, f" Current settings:               ")
+	stdscr.addstr(stati+2, 1, f" rate = {speed} packets/second   ")
+	stdscr.addstr(stati+3, 1, f" P(loot) = {loot:.2f}            ")
+	stdscr.addstr(stati+4, 1, f"                                 ")
+	stdscr.addstr(stati+5, 1, f" q   Quit the program.           ")
+	stdscr.addstr(stati+6, 1, f"     Increase replay speed.      ")
+	stdscr.addstr(stati+7, 1, f"     Decrease replay speed.      ")
+	stdscr.addstr(stati+8, 1, f"     Increase loot probability.  ")
+	stdscr.addstr(stati+9, 1, f"     Decrease loot probability.  ")
+	stdscr.addch(stati+6, 2, curses.ACS_UARROW, curses.A_ALTCHARSET)
+	stdscr.addch(stati+7, 2, curses.ACS_DARROW, curses.A_ALTCHARSET)
+	stdscr.addch(stati+8, 2, curses.ACS_RARROW, curses.A_ALTCHARSET)
+	stdscr.addch(stati+9, 2, curses.ACS_LARROW, curses.A_ALTCHARSET)
 	stdscr.refresh()
 
 	# Main loop.
@@ -72,6 +73,22 @@ def main(iface, pcap, icap):
 
 		if c == ord("q"):
 			break
+		elif c == curses.KEY_UP:
+			speed += DELTA_SPEED
+			stdscr.addstr(stati+2, 1, f" rate = {speed} packets/second   ")
+			stdscr.refresh()
+		elif c == curses.KEY_DOWN and speed-DELTA_SPEED >= -0.0001:
+			speed -= DELTA_SPEED
+			stdscr.addstr(stati+2, 1, f" rate = {speed} packets/second   ")
+			stdscr.refresh()
+		elif c == curses.KEY_RIGHT and loot+DELTA_LOOT <= 1.0001:
+			loot += DELTA_LOOT
+			stdscr.addstr(stati+3, 1, f" P(loot) = {loot:.2f}            ")
+			stdscr.refresh()
+		elif c == curses.KEY_LEFT and loot-DELTA_LOOT >= -0.0001:
+			loot -= DELTA_LOOT
+			stdscr.addstr(stati+3, 1, f" P(loot) = {loot:.2f}            ")
+			stdscr.refresh()
 
 	# End the TUI.
 	curses.echo()
