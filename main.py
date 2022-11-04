@@ -20,7 +20,7 @@ BANNER = r"""
 DELTA_SPEED = 1
 DELTA_LOOT = 0.01
 
-def main(iface, pcap, icap):
+def main(iface, pcap):
 
 	print(f":: Loading reader for packets from {pcap}...")
 	preader = PcapReader(pcap)
@@ -97,9 +97,9 @@ def main(iface, pcap, icap):
 	print(f":: Session complete.")
 
 if __name__ == "__main__":
-	if len(sys.argv) < 3:
+	if len(sys.argv) < 2:
 		print("Usage: %s <INTERFACE> <PACKETCAP>" % sys.argv[0])
 		print("<INTERFACE>    Interface to transmit packets on.")
 		print("<PACKETCAP>    Capture of packets to replay as noise.")
 	else:
-		main(sys.argv[1], sys.argv[2], sys.argv[3])
+		main(sys.argv[1], sys.argv[2])
