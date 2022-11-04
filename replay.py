@@ -25,9 +25,6 @@ def main(iface, pcap, icap):
 	print(f":: Loading reader for packets from {pcap}...")
 	preader = PcapReader(pcap)
 
-	print(f":: Loading reader for packets from {icap}...")
-	ireader = PcapReader(icap)
-
 	print(f":: Creating layer 2 socket on {iface}...")
 	s = conf.L2socket(iface=iface)
 
@@ -101,9 +98,8 @@ def main(iface, pcap, icap):
 
 if __name__ == "__main__":
 	if len(sys.argv) < 3:
-		print("Usage: %s <INTERFACE> <PACKETCAP> <INJECTCAP>" % sys.argv[0])
-		print("<INTERFACE>    Interface to replay packets on.")
-		print("<PACKETCAP>    Capture of packets to replay.")
-		print("<INJECTCAP>    Capture of packets to inject.")
+		print("Usage: %s <INTERFACE> <PACKETCAP>" % sys.argv[0])
+		print("<INTERFACE>    Interface to transmit packets on.")
+		print("<PACKETCAP>    Capture of packets to replay as noise.")
 	else:
 		main(sys.argv[1], sys.argv[2], sys.argv[3])
