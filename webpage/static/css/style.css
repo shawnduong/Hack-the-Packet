@@ -1,0 +1,30 @@
+html {
+	background-color: black;
+	color: #4AF626;
+	font-family: 'Source Code Pro', monospace;
+}
+
+#container {
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+#info {
+	display: inline-block;
+	width: 30%;
+}
+
+#pwns {
+	display: inline-block;
+	width: 60%;
+	vertical-align: top;
+}
+
+#pwns table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#pwns table, #pwns th, #pwns td {
+	border: 1px solid #4AF626;
+}
