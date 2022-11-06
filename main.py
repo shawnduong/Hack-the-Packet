@@ -3,13 +3,14 @@
 import warnings
 warnings.simplefilter("ignore", Warning)
 
-from scapy.all import *
-from modules.HelloWorld import HelloWorld
-
 import curses
 import random
 import sys
 import time
+
+from scapy.all import *
+from modules.HelloWorld import HelloWorld
+from modules.WebGet import WebGet
 
 BANNER = r"""
    __ __         __     __  __         ___           __       __ 
@@ -27,11 +28,24 @@ class Loot:
 	Wrapper over all Loot types.
 	"""
 
-	def play(s: conf.L2socket):
+	usernames = None
+	passwords = None
+	websites  = None
 
-		random.choice([
-			WebGet.play
-		])(s)
+	modules = None
+
+	def __init__(self, usernames, passwords, websites):
+
+		self.usernames = usernames
+		self.passwords = passwords
+		self.websites  = websites
+
+		self.modules = [
+			WebGet(websites)
+		]
+
+	def play(self, s: conf.L2socket):
+		random.choice(self.modules).play(s)
 
 def main(iface, pcap):
 
@@ -43,6 +57,8 @@ def main(iface, pcap):
 
 	print(f":: Reading website wordlist...")
 	websites = [l for l in open("wordlists/websites.txt").read().split("\n")]
+
+	l = Loot(usernames, passwords, websites)
 
 	print(f":: Loading reader for packets from {pcap}...")
 	preader = PcapReader(pcap)
@@ -118,7 +134,7 @@ def main(iface, pcap):
 		# Random probability of a loot sequence.
 		try:
 			if random.random() < loot:
-				Loot.play(s)
+				l.play(s)
 			elif speed > 0:
 				s.send(preader.next())
 		except:
