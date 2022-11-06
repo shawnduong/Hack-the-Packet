@@ -17,6 +17,8 @@ function update()
 		dataType: "json",
 		success: function(response)
 		{
+			var pwns = 0;
+
 			$("#leaderboard").empty();
 			response["Leaderboard"].forEach(function (e)
 			{
@@ -28,7 +30,10 @@ function update()
 			response["pwns"].forEach(function (e)
 			{
 				$("#pwns-table").append("<tr><td>"+e[0]+"</td><td>"+e[1]+"</td><td>"+e[2]+"</td><td>"+e[3]+"</td></li>");
+				pwns++;
 			});
+
+			$("#count").html(pwns);
 		},
 		complete: function()
 		{
