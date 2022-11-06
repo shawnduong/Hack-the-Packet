@@ -1,0 +1,3 @@
+Websites cannot be added here as they would likely set off
+automatic flags on GitHub for abuve violations. You should
+replace this file with a list of websites.
