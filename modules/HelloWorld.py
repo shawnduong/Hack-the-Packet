@@ -1,9 +1,9 @@
-from scapy.all import conf, IP, UDP
+from scapy.all import conf, Ether, IP, UDP
 
 class HelloWorld():
 	"""
-	13.37.13.37:1337 -> 255.255.255.255:9999
-	UDP "Hello World!"
+	13.37.13.37:1337 -> 12.34.56.78:6767
+	UDP "Hello World! Welcome to Hack the Packet!"
 	"""
 
 	def play(s: conf.L2socket):
@@ -12,9 +12,10 @@ class HelloWorld():
 		"""
 
 		message = (
-			IP(dst="255.255.255.255", src="13.37.13.37")
-			/ UDP(sport=1337, dport=9999)
-			/ "Hello World!"
+			Ether()
+			/ IP(dst="12.34.56.78", src="13.37.13.37")
+			/ UDP(sport=1337, dport=6767)
+			/ "Hello World! Welcome to Hack the Packet!"
 		)
 
 		s.send(message)
