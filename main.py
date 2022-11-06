@@ -11,6 +11,7 @@ import time
 from scapy.all import *
 from modules.HelloWorld import HelloWorld
 from modules.WebGet import WebGet
+from modules.WebLogin import WebLogin
 
 BANNER = r"""
    __ __         __     __  __         ___           __       __ 
@@ -28,20 +29,13 @@ class Loot:
 	Wrapper over all Loot types.
 	"""
 
-	usernames = None
-	passwords = None
-	websites  = None
-
 	modules = None
 
 	def __init__(self, usernames, passwords, websites):
 
-		self.usernames = usernames
-		self.passwords = passwords
-		self.websites  = websites
-
 		self.modules = [
-			WebGet(websites)
+			WebGet(websites),
+			WebLogin(usernames, passwords, websites)
 		]
 
 	def play(self, s: conf.L2socket):
