@@ -33,13 +33,13 @@ class Loot:
 
 	def __init__(self, usernames, passwords, websites):
 
-		self.modules = [
-			WebGet(websites),
-			WebLogin(usernames, passwords, websites)
-		]
+		self.modules = {
+			WebGet(websites): 0.99,
+			WebLogin(usernames, passwords, websites): 0.01
+		}
 
 	def play(self, s: conf.L2socket):
-		random.choice(self.modules).play(s)
+		random.choices(list(self.modules.keys()), weights=list(self.modules.values()))[0].play(s)
 
 def main(iface, pcap):
 
