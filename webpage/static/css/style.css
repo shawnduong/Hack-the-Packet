@@ -11,20 +11,22 @@ html {
 
 #info {
 	display: inline-block;
-	width: 30%;
+	width: 20%;
 }
 
 #pwns {
 	display: inline-block;
-	width: 60%;
+	width: 70%;
 	vertical-align: top;
+	padding-top: 24px;
 }
 
-#pwns table {
+#pwns-table {
 	border-collapse: collapse;
 	width: 100%;
 }
 
-#pwns table, #pwns th, #pwns td {
+#pwns-table, #pwns th, #pwns td {
 	border: 1px solid #4AF626;
+	padding: 8px;
 }
