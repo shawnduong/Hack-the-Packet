@@ -1,6 +1,6 @@
 from scapy.all import conf, Ether, IP, UDP
 
-class HelloWorld():
+class HelloWorld:
 	"""
 	13.37.13.37:1337 -> 12.34.56.78:6767
 	UDP "Hello World! Welcome to Hack the Packet!"
