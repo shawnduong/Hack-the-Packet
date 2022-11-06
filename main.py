@@ -4,8 +4,10 @@ import warnings
 warnings.simplefilter("ignore", Warning)
 
 from scapy.all import *
+from modules.Loot import Loot
 
 import curses
+import random
 import sys
 import time
 
@@ -39,6 +41,9 @@ def main(iface, pcap):
 	curses.curs_set(0)
 	stdscr.keypad(True)
 	stdscr.clear()
+
+	# Non-blocking getch.
+	stdscr.nodelay(True)
 
 	speed = 0  # packets/second e [0, inf)
 	loot = 0   # probability e [0, 1]
@@ -86,6 +91,20 @@ def main(iface, pcap):
 			loot -= DELTA_LOOT
 			stdscr.addstr(stati+3, 1, f" P(loot) = {loot:.2f}            ")
 			stdscr.refresh()
+
+		# Random probability of a loot sequence.
+		try:
+			if random.random() < loot:
+				Loot.play(s)
+			elif speed > 0:
+				s.send(preader.next())
+		except:
+			pass
+
+		if speed == 0:
+			time.sleep(0.01)
+		else:
+			time.sleep(1/speed)
 
 	# End the TUI.
 	curses.echo()
