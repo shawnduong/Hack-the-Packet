@@ -4,7 +4,7 @@ import warnings
 warnings.simplefilter("ignore", Warning)
 
 from scapy.all import *
-from modules.Loot import Loot
+from modules.HelloWorld import HelloWorld
 
 import curses
 import random
@@ -22,13 +22,36 @@ BANNER = r"""
 DELTA_SPEED = 1
 DELTA_LOOT = 0.01
 
+class Loot:
+	"""
+	Wrapper over all Loot types.
+	"""
+
+	def play(s: conf.L2socket):
+
+		random.choice([
+			WebGet.play
+		])(s)
+
 def main(iface, pcap):
+
+	print(f":: Reading username wordlist...")
+	usernames = [l for l in open("wordlists/usernames.txt").read().split("\n")]
+
+	print(f":: Reading password wordlist...")
+	passwords = [l for l in open("wordlists/passwords.txt").read().split("\n")]
+
+	print(f":: Reading website wordlist...")
+	websites = [l for l in open("wordlists/websites.txt").read().split("\n")]
 
 	print(f":: Loading reader for packets from {pcap}...")
 	preader = PcapReader(pcap)
 
 	print(f":: Creating layer 2 socket on {iface}...")
 	s = conf.L2socket(iface=iface)
+
+	print(f":: Sending out a \"Hello World!\" as a sanity check...")
+	HelloWorld.play(s)
 
 	print(f":: Initialization complete.")
 	print(f":: Starting replay.")
