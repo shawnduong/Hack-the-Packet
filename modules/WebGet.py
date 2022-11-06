@@ -1,4 +1,4 @@
-from random import randint, choice
+from random import random, randint, choice
 from scapy.all import conf, Ether, IP, TCP
 
 class WebGet:
@@ -7,9 +7,14 @@ class WebGet:
 	"""
 
 	websites = None
+	directories = None
+	pdir = None
 
-	def __init__(self, websites):
+	def __init__(self, websites, directories):
+
 		self.websites = websites
+		self.directories = directories
+		self.pdir = 0.20  # Probability of GETting a directory.
 
 	def play(self, s: conf.L2socket):
 		"""
@@ -29,12 +34,20 @@ class WebGet:
 		)
 		target = choice(self.websites)
 
-		message = (
-			Ether(src=srcMAC, dst=dstMAC)
-			/ IP(src=srcIP, dst=target)
-			/ TCP(dport=80, sport=randint(1,65535))
-			/ f"GET / HTTP/1.1\r\nHost: {target}\r\n\r\n"
-		)
+		if random() < self.pdir:
+			message = (
+				Ether(src=srcMAC, dst=dstMAC)
+				/ IP(src=srcIP, dst=target)
+				/ TCP(dport=80, sport=randint(1,65535))
+				/ (f"GET /%s HTTP/1.1\r\nHost: {target}\r\n\r\n" % choice(self.directories))
+			)
+		else:
+			message = (
+				Ether(src=srcMAC, dst=dstMAC)
+				/ IP(src=srcIP, dst=target)
+				/ TCP(dport=80, sport=randint(1,65535))
+				/ f"GET / HTTP/1.1\r\nHost: {target}\r\n\r\n"
+			)
 
 		s.send(message)
 

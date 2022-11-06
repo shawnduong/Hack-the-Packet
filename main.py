@@ -31,11 +31,11 @@ class Loot:
 
 	modules = None
 
-	def __init__(self, usernames, passwords, websites):
+	def __init__(self, usernames, passwords, websites, directories):
 
 		self.modules = {
-			WebGet(websites): 0.99,
-			WebLogin(usernames, passwords, websites): 0.01
+			WebGet(websites, directories): 0.999,
+			WebLogin(usernames, passwords, websites): 0.001
 		}
 
 	def play(self, s: conf.L2socket):
@@ -52,7 +52,10 @@ def main(iface, pcap):
 	print(f":: Reading website wordlist...")
 	websites = [l for l in open("wordlists/websites.txt").read().split("\n")]
 
-	l = Loot(usernames, passwords, websites)
+	print(f":: Reading directories wordlist...")
+	directories = [l for l in open("wordlists/directories.txt").read().split("\n")]
+
+	l = Loot(usernames, passwords, websites, directories)
 
 	print(f":: Loading reader for packets from {pcap}...")
 	preader = PcapReader(pcap)
