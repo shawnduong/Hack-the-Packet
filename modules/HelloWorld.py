@@ -13,7 +13,7 @@ class HelloWorld:
 
 		message = (
 			Ether()
-			/ IP(dst="12.34.56.78", src="13.37.13.37")
+			/ IP(src="13.37.13.37", dst="12.34.56.78")
 			/ UDP(sport=1337, dport=6767)
 			/ "Hello World! Welcome to Hack the Packet!"
 		)
