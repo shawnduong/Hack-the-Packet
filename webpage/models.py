@@ -13,6 +13,13 @@ class Team(db.Model):
 		self.name = name
 		self.points = 0
 
+	def update_points(self):
+
+		self.points = 0
+
+		for entry in Entry.query.filter_by(team=self.id):
+			self.points += 25  # Points value per entry is 25.
+
 class Entry(db.Model):
 
 	__tablename__ = "entry"

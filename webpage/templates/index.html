@@ -10,6 +10,9 @@
 </head>
 
 <body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
+	<script src="{{ url_for('static', filename='js/ajax.js') }}" defer></script>
+
 	<center>
 		<pre>   __ __         __     __  __         ___           __       __ 
   / // /__ _____/ /__  / /_/ /  ___   / _ \___ _____/ /_____ / /_
@@ -23,12 +26,7 @@
 		<div id="info">
 			<h1>Hacks: <span id="count">0</span></h1>
 			<h3>Leaderboard:</h3>
-			<ol>
-				<li>Team Alpha: 0 pts</li>
-				<li>Team Bravo: 0 pts</li>
-				<li>Team Charlie: 0 pts</li>
-				<li>Team Delta: 0 pts</li>
-				<li>Team Echo: 0 pts</li>
+			<ol id="leaderboard">
 			</ol>
 		</div>
 
