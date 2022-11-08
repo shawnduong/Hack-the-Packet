@@ -22,7 +22,7 @@ BANNER = r"""
 """
 
 DELTA_SPEED = 1
-DELTA_LOOT = 0.01
+DELTA_LOOT = 0.001
 
 class Loot:
 	"""
