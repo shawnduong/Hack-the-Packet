@@ -3,6 +3,10 @@ from sqlalchemy import *
 
 @app.route("/ajax/update", methods=["GET"])
 def get_update():
+	"""
+	Return the leaderboard and table. The table is such that the latest entry
+	is first.
+	"""
 
 	# Update all team points.
 	for team in Team.query.all():
@@ -21,6 +25,6 @@ def get_update():
 
 	return {
 		"Leaderboard": leaderboard,
-		"pwns": pwns
+		"pwns": pwns[::-1]
 	}, 200
 
