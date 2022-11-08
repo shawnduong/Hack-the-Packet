@@ -3,7 +3,7 @@ from scapy.all import conf, Ether, IP, TCP
 
 class WebGet:
 	"""
-	GET / some web page.
+	GET some web page.
 	"""
 
 	websites = None

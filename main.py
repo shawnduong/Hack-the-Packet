@@ -33,6 +33,7 @@ class Loot:
 
 	def __init__(self, usernames, passwords, websites, directories):
 
+		# Weighted loot modules.
 		self.modules = {
 			WebGet(websites, directories): 0.999,
 			WebLogin(usernames, passwords, websites): 0.001
@@ -111,18 +112,26 @@ def main(iface, pcap):
 
 		if c == ord("q"):
 			break
+
+		# Increase speed.
 		elif c == curses.KEY_UP:
 			speed += DELTA_SPEED
 			stdscr.addstr(stati+2, 1, f" rate = {speed} packets/second   ")
 			stdscr.refresh()
+
+		# Decrease speed.
 		elif c == curses.KEY_DOWN and speed-DELTA_SPEED >= -0.0001:
 			speed -= DELTA_SPEED
 			stdscr.addstr(stati+2, 1, f" rate = {speed} packets/second   ")
 			stdscr.refresh()
+
+		# Increase loot.
 		elif c == curses.KEY_RIGHT and loot+DELTA_LOOT <= 1.0001:
 			loot += DELTA_LOOT
 			stdscr.addstr(stati+3, 1, f" P(loot) = {loot:.2f}            ")
 			stdscr.refresh()
+
+		# Decrease loot.
 		elif c == curses.KEY_LEFT and loot-DELTA_LOOT >= -0.0001:
 			loot -= DELTA_LOOT
 			stdscr.addstr(stati+3, 1, f" P(loot) = {loot:.2f}            ")
